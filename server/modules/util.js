@@ -1,9 +1,8 @@
 module.exports = {
-    success: (status, message, data) => {
+    success: (status, data) => {
         return {
             status: status,
             success: true,
-            message: message,
             data: data
         }
     },

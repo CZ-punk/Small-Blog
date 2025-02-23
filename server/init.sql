@@ -5,7 +5,8 @@ CREATE TABLE posts (
     author VARCHAR(100) NOT NULL,
     category VARCHAR(100) NOT NULL,
     md_file TEXT NOT NULL,
-    image_url TEXT NOT NULL
+    image_url TEXT NOT NULL,
+    create_date timestamp with time zone DEFAULT now()
 );
 
 CREATE TABLE category (
