@@ -29,16 +29,16 @@ const upload = multer({
 // Upload Post 
 exports.postBlog = async (req, res) => {
 
-    upload.fields([{ name: 'md'}, { name: 'image'}]) (req, res, async function(err) {
-        if (err) { 
+    upload.fields([{ name: 'md' }, { name: 'image' }])(req, res, async function (err) {
+        if (err) {
             console.log(err);
-            return res.status(statusCode.INTERNAL_SERVER_ERROR).send(fail(statusCode.INTERNAL_SERVER_ERROR, "error while uploading files"));    
+            return res.status(statusCode.INTERNAL_SERVER_ERROR).send(fail(statusCode.INTERNAL_SERVER_ERROR, "error while uploading files"));
         }
 
         const mdFile = req.files['md'][0];
         const imageFile = req.files['image'][0];
         const { header, quote, author, category } = req.body;
-    
+
         try {
             const postBody = {
                 header,
@@ -52,7 +52,7 @@ exports.postBlog = async (req, res) => {
             return res
                 .status(statusCode.OK)
                 .send(success(statusCode.OK, "Blog posted successfully", newPostId));
-    
+
         } catch (err) {
             console.log(err);
             return res
@@ -60,6 +60,40 @@ exports.postBlog = async (req, res) => {
                 .send(fail(statusCode.INTERNAL_SERVER_ERROR, "error while uploading files"));
         }
     })
+}
 
-   
+exports.getAllBlog = async (req, res) => {
+    try {
+        const data = await PostService.getAllBlog();
+        return res
+            .status(statusCode.OK)
+            .send(success(statusCode.OK, data.rows))
+
+    } catch (err) {
+        console.error(err);
+        return res
+            .status(statusCode.NOT_FOUND)
+            .send(fail(statusCode.NOT_FOUND, 'POSTS NOT FOUND'))
+    }
+}
+
+exports.getPost = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const data = await PostService.getPost(id);
+        if (data.rows.length > 0) {
+            return res
+                .status(statusCode.OK)
+                .send(success(statusCode.OK, data.rows))
+        } else {
+            return res
+                .status(statusCode.NOT_FOUND)
+                .send(fail(statusCode.NOT_FOUND, 'POSTS NOT FOUND BY ID'))
+        }
+    } catch (err) {
+        console.error(err);
+        return res
+            .status(statusCode.NOT_FOUND)
+            .send(fail(statusCode.NOT_FOUND, 'POSTS NOT FOUND BY ID'))
+    }
 }

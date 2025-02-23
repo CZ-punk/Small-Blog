@@ -13,3 +13,23 @@ exports.postBlog = async(postBody) => {
         throw new Error('Failed to post blog');
     }
 }
+
+exports.getAllBlog = async() => {
+    try {
+        const query = `SELECT * FROM posts ORDER BY id DESC`;
+        let data = await pool.query(query);
+        return data;
+    } catch (err) {
+        throw new Error('Failed to Get All Posts');
+    }
+}
+
+exports.getPost = async(id) => {
+    try {
+        const query = `SELECT * FROM posts WHERE id = $1`;
+        let data = await pool.query(query, [id]);
+        return data;
+    } catch (err) {
+        throw new Error('Failed to Get Post By Id: ' + id);
+    }
+}
