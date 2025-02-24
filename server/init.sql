@@ -5,7 +5,7 @@ CREATE TABLE posts (
     author VARCHAR(100) NOT NULL,
     category VARCHAR(100) NOT NULL,
     md_file TEXT NOT NULL,
-    image_url TEXT NOT NULL,
+    image_url TEXT,
     create_date timestamp with time zone DEFAULT now()
 );
 
@@ -22,3 +22,4 @@ VALUES
     (3, 'PHP', 'Description 3'),
     (4, 'React', 'Description 4'),
     (5, 'NodeJs', 'Description 5')
+

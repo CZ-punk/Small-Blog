@@ -84,11 +84,11 @@ exports.getPost = async (req, res) => {
         if (data.rows.length > 0) {
             return res
                 .status(statusCode.OK)
-                .send(success(statusCode.OK, data.rows))
+                .send(success(statusCode.OK, data.rows[0]))
         } else {
             return res
                 .status(statusCode.NOT_FOUND)
-                .send(fail(statusCode.NOT_FOUND, 'POSTS NOT FOUND BY ID'))
+                .send(fail(statusCode.NOT_FOUND, 'POSTS NOT FOUND BY ID: ' + id))
         }
     } catch (err) {
         console.error(err);
